@@ -50,7 +50,7 @@ pipeline {
       stage ('Deploy-To-Tomcat') {
             steps {
            sshagent(['tomcat']) {
-                sh 'scp -o StrictHostKeyChecking=no target/*.war ubuntu@13.201.127.190:/prod/apache-tomcat-10.1.30/webapps/CPMS.war'
+                sh 'scp -o StrictHostKeyChecking=no target/*.war ubuntu@13.201.135.221:/prod/apache-tomcat-10.1.30/webapps/CPMS.war'
               }      
            }       
     }
@@ -59,7 +59,7 @@ pipeline {
     stage ('DAST') {
       steps {
         sshagent(['owasp-zap']) {
-         sh 'ssh -o  StrictHostKeyChecking=no ubuntu@13.234.120.209 "docker run -t ghcr.io/zaproxy/zaproxy:stable zap-baseline.py -t http://13.201.127.190:8080/CPMS/" || true'
+         sh 'ssh -o  StrictHostKeyChecking=no ubuntu@13.235.74.223 "docker run -t ghcr.io/zaproxy/zaproxy:stable zap-baseline.py -t http://13.201.135.221:8080/CPMS/" || true'
         }
       }
     }
